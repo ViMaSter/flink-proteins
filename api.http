@@ -1,0 +1,7 @@
+GET https://consumer-api.goflink.com/v1/products
+locale: de
+hub-slug: de_ham_wate
+
+###
+GET https://consumer-api.goflink.com/v1/locations/hub?lat=53.5506201&long=9.9545555
+locale: de
