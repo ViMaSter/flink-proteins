@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+    body {
+        background-color: black;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        align-content: center;
+        flex-direction: column;
+
+        color: #CCC;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    div.product {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        min-width: 500px;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 23%, rgba(255,255,255,0) 31%, rgba(255,255,255,0) 100%)
+    }
+
+    .subpar
+    {
+        border-radius: 50px;
+        border: 5px solid red;
+        overflow: hidden;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 23%, rgba(255, 0, 0, 0.2) 31%, rgba(255, 0, 0, 0.2) 100%) !important;
+    }
+
+    .meh
+    {
+        border-radius: 50px;
+        border: 5px solid orange;
+        overflow: hidden;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 23%, rgba(255, 165, 0, 0.2) 31%, rgba(255, 165, 0, 0.2) 100%) !important;
+    }
+
+    .mid
+    {
+        border-radius: 50px;
+        border: 5px solid yellow;
+        overflow: hidden;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 23%, rgba(255, 255, 0, 0.2) 31%, rgba(255, 255, 0, 0.2) 100%) !important;
+    }
+
+    .good
+    {
+        border-radius: 50px;
+        border: 5px solid green;
+        overflow: hidden;
+        background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 23%, rgba(0, 255, 0, 0.2) 31%, rgba(0, 255, 0, 0.2) 100%) !important;
+    }
+
+
+    .canvas-container {
+        width: 200px;
+        height: 200px;
+    }
+
+    img {
+        max-width: 200px;
+        max-height: 160px;
+    }
+
+    p {
+        padding: 20px;
+        padding-left: 50px;
+        width: 180px;
+        display: inline-block;
+    }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script type="text/javascript">
+        const isScrolledIntoView = (element) => {
+            var elementTop    = element.getBoundingClientRect().top,
+                elementBottom = element.getBoundingClientRect().bottom;
+
+                if (element.dataset.score == 11.25)
+                console.log({elementTop, elementBottom})
+
+            return elementTop <= window.innerHeight && elementBottom > 0;
+        };
+
+        const colors = {
+            "carbs": "#061DCC",        
+            "fat": "#CC061D",        
+            "protein": "#1DCC06"          
+        };
+
+        window.f = [];
+
+        const renderItem = (item) => {
+            if (parseFloat(item.dataset.score) > 1.1)
+            {
+                item.classList.add("good");
+            }
+            if (parseFloat(item.dataset.score) >= 1.0)
+            {
+                item.classList.add("mid");
+            }
+            if (parseFloat(item.dataset.score) >= 0.75)
+            {
+                item.classList.add("meh");
+            }
+            if (parseFloat(item.dataset.score) >= 0.5)
+            {
+                item.classList.add("subpar");
+            }
+            const nutritions = {
+                "carbs": parseFloat(item.dataset.carbs),
+                "fat": parseFloat(item.dataset.fat),
+                "protein": parseFloat(item.dataset.protein)
+            };
+            window.f.push(new Chart(item.querySelector("canvas").getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: Object.values(nutritions),
+                        backgroundColor: Object.keys(nutritions).map(mapping => colors[mapping]),
+                        borderColor: "transparent",
+                        color: "#FFF",
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: {
+                            labels: {
+                                font: {
+                                    family: "'Roboto', sans-serif"
+                                }
+                            }
+                        }
+                    },
+                    responsive: false,
+                    aspectRatio: 1,
+                    animation: {
+                        duration: 0 // general animation time
+                    },
+                    hover: {
+                        animationDuration: 0 // duration of animations when hovering an item
+                    },
+                    responsiveAnimationDuration: 0 // animation duration after a resize
+                }
+            }));
+        };
+
+        let remainingItems = [];
+        window.onload = () => {
+            remainingItems = Array.from(document.querySelectorAll("div.product"));
+            window.onscroll = () => {
+                for (let index = 0; index < remainingItems.length; index++) {
+                    const element = remainingItems[index];
+                    if (isScrolledIntoView(element))
+                    {
+                        renderItem(element);
+                        remainingItems.splice(index, 1);
+                        --index;
+                    }
+                }
+            };
+            setTimeout(window.onscroll, 500);
+        }
+    </script>
+</head>
+<body>
+    {{content}}
+</body>
+</html>
