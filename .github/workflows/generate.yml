@@ -28,7 +28,7 @@ jobs:
       run: node crawl.js
 
     - shell: bash
-      run: cp output.html build/index.html
+      run: mkdir build && cp output.html build/index.html
 
     - name: Deploy 🚀
       uses: JamesIves/github-pages-deploy-action@v4
