@@ -1,7 +1,9 @@
 name: Build and publish
 
 on:
-  - push
+  push:
+  schedule:
+    - cron: "0 7 * * *"
 
 jobs:
   build:
