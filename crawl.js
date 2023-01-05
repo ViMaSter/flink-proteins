@@ -1,5 +1,5 @@
 import * as fs from 'fs'
-const a = JSON.parse(fs.readFileSync("products.json"));
+const a = JSON.parse(fs.readFileSync("products.json")).products;
 const itemsWithNutritions = a.filter(e=>e.nutritions.length > 1 && e.nutritions.some(a=>a.includes("Eiweiß:")) && e.nutritions.some(a=>a.includes("Kohlenhydrate:")) && e.nutritions.some(a=>a.includes("Fett:")));
 const sortedItemsWithNutritions = itemsWithNutritions.sort((a,b)=> {
     const proteinA = parseFloat(a.nutritions.find(c=>c.includes("Eiweiß:")).replace(/`./, "").replace(",", ".").replace(/\D*/, ""));

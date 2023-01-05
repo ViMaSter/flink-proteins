@@ -1,10 +1,9 @@
 import * as fs from 'fs'
-const locData = await (await fetch("https://consumer-api.goflink.com/v1/locations/hub?lat=53.5506201&long=9.9545555")).json()
-const products = await (await fetch(new Request('https://consumer-api.goflink.com/v1/products', {
+const products = await (await fetch(new Request('https://consumer-api.goflink.com/v1/search?query=&page_size=5000', {
     method: 'GET',
     headers: new Headers({
-        "locale": "de",
-        "hub-slug": "de_ham_wate"
+        "hub": "de_ham_otte",
+        "hub-slug": "de_ham_otte"
     }),
     mode: 'cors',
     cache: 'default',
